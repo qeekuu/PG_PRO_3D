@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cmath>
-class Camera 
+class Camera
 {
 public:
     glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -17,24 +17,37 @@ public:
     float pitch = 0.0f;
     float movementSpeed = 0.5f;
     float sensitivity = 0.1f;
-    void CameraKeyBoardHandler(int direction) 
+
+    void CameraKeyBoardHandler(int direction)
     {
 
-        if (direction == GLFW_KEY_W) 
+        if (direction == GLFW_KEY_W)
+        {
             position += front * movementSpeed;
-        if (direction == GLFW_KEY_S) 
+        }
+        if (direction == GLFW_KEY_S)
+        {
             position -= front * movementSpeed;
-        if (direction == GLFW_KEY_A) 
+        }
+        if (direction == GLFW_KEY_A)
+        {
             position -= right * movementSpeed;
-        if (direction == GLFW_KEY_D) 
+        }
+        if (direction == GLFW_KEY_D)
+        {
             position += right * movementSpeed;
-        if (direction == GLFW_KEY_SPACE) 
+        }
+        if (direction == GLFW_KEY_SPACE)
+        {
             position += up * movementSpeed;
-        if (direction == GLFW_KEY_LEFT_CONTROL) 
+        }
+        if (direction == GLFW_KEY_LEFT_CONTROL)
+        {
             position -= up * movementSpeed;
+        }
     }
 
-    glm::mat4 getViewMatrix() 
+    glm::mat4 getViewMatrix()
     {
         return glm::lookAt(position, position + front, up);
     }

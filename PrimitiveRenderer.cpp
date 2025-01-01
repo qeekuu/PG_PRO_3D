@@ -1,36 +1,188 @@
 #include "PrimitiveRenderer.h"
 #include <iostream>
-
-void PrimitiveRenderer::addVertex(float x, float y, float z)
+PrimitiveRenderer::PrimitiveRenderer(float cPosX, float cPosY, float cPosZ) : cubePosX{cPosX},cubePosY{cPosY},cubePosZ{cPosZ},
+cubeRotX{0.f}, cubeRotY{0.f}, cubeRotZ{0.f},cubeScale{1.0f}
 {
-    vertex.push_back(x);
-    vertex.push_back(y);
-    vertex.push_back(z);
+    //Wierzcholki
+
+    //Przednia sciana
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(1.0f);
+
+    //Tylna sciana
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+
+    //Prawa sciana
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+
+    //Lewa sciana
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+
+    //Gorna sciana
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(1.0f);  vertex.push_back(-1.0f);
+
+    //Dolna sciana
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(1.0f);
+    vertex.push_back(-1.0f); vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+    vertex.push_back(1.0f);  vertex.push_back(-1.0f); vertex.push_back(-1.0f);
+
+    //Indeksy
+
+    //Przednia
+    indices.push_back(0);  indices.push_back(1);  indices.push_back(2);
+    indices.push_back(0);  indices.push_back(2);  indices.push_back(3);
+
+    //Tylna
+    indices.push_back(4);  indices.push_back(5);  indices.push_back(6);
+    indices.push_back(4);  indices.push_back(6);  indices.push_back(7);
+
+    //Prawa
+    indices.push_back(8);  indices.push_back(9);  indices.push_back(10);
+    indices.push_back(8);  indices.push_back(10); indices.push_back(11);
+
+    //Lewa
+    indices.push_back(12); indices.push_back(13); indices.push_back(14);
+    indices.push_back(12); indices.push_back(14); indices.push_back(15);
+
+    //Gorna
+    indices.push_back(16); indices.push_back(17); indices.push_back(18);
+    indices.push_back(16); indices.push_back(18); indices.push_back(19);
+
+    //Dolna
+    indices.push_back(20); indices.push_back(21); indices.push_back(22);
+    indices.push_back(20); indices.push_back(22); indices.push_back(23);
+    
+    //Ladowanie tablic
+    glEnableClientState(GL_VERTEX_ARRAY);
+    //Ustawienie wskaznika na tablice
+    glVertexPointer(3, GL_FLOAT, 0, vertex.data());
 }
 
-void PrimitiveRenderer::addIndex(unsigned int i1, unsigned int i2, unsigned int i3)
+float PrimitiveRenderer::getCPosX()
 {
-    indices.push_back(i1);
-    indices.push_back(i2);
-    indices.push_back(i3);
+    return this->cubePosX;
 }
 
-float* PrimitiveRenderer::getData()
+float PrimitiveRenderer::getCPosY()
 {
-    return vertex.data();
+    return this->cubePosY;
 }
 
-unsigned int* PrimitiveRenderer::getIndexData()
+float PrimitiveRenderer::getCPosZ()
 {
-    return indices.data();
+    return this->cubePosZ;
 }
 
-size_t PrimitiveRenderer::getVertexCount()
+void PrimitiveRenderer::setCPosX(float newCPosX)
 {
-    return vertex.size() / 3;
+    this->cubePosX = newCPosX;
+}
+void PrimitiveRenderer::setCPosY(float newCPosY)
+{
+    this->cubePosY = newCPosY;
+}
+void PrimitiveRenderer::setCPosZ(float newCPosZ)
+{
+    this->cubePosZ = newCPosZ;
+}
+int PrimitiveRenderer::getIndicesSize()
+{
+    return this->indices.size();
+}
+unsigned int *PrimitiveRenderer::getIndicesData()
+{
+    return this->indices.data();
+}
+float *PrimitiveRenderer::getVertexData()
+{
+    return this->vertex.data();
+}
+void PrimitiveRenderer::draw()
+{
+    //Przesuniecie
+    glTranslatef(cubePosX, cubePosY, cubePosZ);
+
+    //Rotacja
+    glRotatef(cubeRotX, 1.0f, 0.0f, 0.0f);
+    glRotatef(cubeRotY, 0.0f, 1.0f, 0.0f);
+    glRotatef(cubeRotZ, 0.0f, 0.0f, 1.0f);
+
+    //Skalowanie
+    glScalef(cubeScale, cubeScale, cubeScale);
+
+    //Kolor
+    glColor3f(1.0f, 0.0f, 0.0f);
+
+    //Rysuj 
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
 }
 
-size_t PrimitiveRenderer::getIndexCount()
+void PrimitiveRenderer::cubeUp()
 {
-    return indices.size();
+    this->cubePosY += 0.1f;
+}
+
+void PrimitiveRenderer::cubeDown()
+{
+    this->cubePosY -= 0.1f;
+}
+
+void PrimitiveRenderer::cubeLeft()
+{
+    this->cubePosX -= 0.1f;
+}
+
+void PrimitiveRenderer::cubeRight()
+{
+    this->cubePosX += 0.1f;
+}
+
+void PrimitiveRenderer::cubeForward()
+{
+    this->cubePosZ -= 0.1f;
+}
+
+void PrimitiveRenderer::cubeBack()
+{
+    this->cubePosZ += 0.1f;
+}
+
+void PrimitiveRenderer::rotateX(float angle)
+{
+    cubeRotX += angle;
+}
+
+void PrimitiveRenderer::rotateY(float angle)
+{
+    cubeRotY += angle;
+}
+
+void PrimitiveRenderer::rotateZ(float angle)
+{
+    cubeRotZ += angle;
+}
+
+void PrimitiveRenderer::scaleUp(float factor)
+{
+    cubeScale += factor;
+}
+
+void PrimitiveRenderer::scaleDown(float factor)
+{
+    cubeScale -= factor;
 }

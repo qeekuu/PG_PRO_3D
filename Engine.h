@@ -28,7 +28,7 @@ private:
     GLFWwindow* window = nullptr;
     static void renderCallback();
     static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void mouseCallbackButtons(GLFWwindow* window, int button, int action,int mods);
+    static void mouseCallbackButtons(GLFWwindow* window, int button, int action, int mods);
     static void mouseCallbackCursor(GLFWwindow* window, double xpos, double ypos);
     Engine() {};
     void initGL();
